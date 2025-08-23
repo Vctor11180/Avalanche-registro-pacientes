@@ -68,27 +68,107 @@ This project implements three interconnected smart contracts that enable:
 
 ## Architecture
 
+
+
+## Document Management Flow
+
+El siguiente diagrama ilustra el flujo completo del sistema de administración de documentos y permisos:
+
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   AccessControl │    │  MedicalRecords │    │   AuditTrail    │
-│                 │    │                 │    │                 │
-│ - Patient mgmt  │◄──►│ - Document mgmt │◄──►│ - Activity logs │
-│ - Permissions   │    │ - Metadata      │    │ - Compliance    │
-│ - Access control│    │ - IPFS hashes   │    │ - Integrity     │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         ▲                       ▲                       ▲
-         │                       │                       │
-         └───────────────────────┼───────────────────────┘
-                                 │
                     ┌─────────────────┐
-                    │   Frontend DApp │
-                    │                 │
-                    │ - Patient UI    │
-                    │ - Doctor UI     │
-                    │ - Insurance UI  │
-                    │ - Auditor UI    │
-                    └─────────────────┘
+                    │  Titular        │
+                    │  (Patient)      │
+                    └─────────┬───────┘
+                              │
+                              ▼
+                    ┌─────────────────┐
+                    │ Admin.          │
+                    │ Documentos      │
+                    └─────────┬───────┘
+                              │
+        ┌─────────────────────┼─────────────────────┐
+        │                     │                     │
+        ▼                     ▼                     ▼
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│  Crearlos   │    │  Modificar  │    │   Leer      │
+│ (Create)    │    │ (Modify)    │    │ (Read)      │
+└─────┬───────┘    └─────┬───────┘    └─────┬───────┘
+      │                  │                  │
+      └──────────────────┼──────────────────┘
+                         │
+                         ▼
+                    ┌─────────────────┐
+                    │ Admin.          │
+                    │ Permisos        │
+                    └─────────┬───────┘
+                              │
+        ┌─────────────────────┼─────────────────────┐
+        │                     │                     │
+        ▼                     ▼                     ▼
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│ Eliminar    │    │ Documento   │    │ Historial   │
+│ (Delete)    │    │ Específico  │    │ del Titular │
+│             │    │ (Specific   │    │ (Holder's   │
+│             │    │  Document)  │    │  History)   │
+└─────────────┘    └─────┬───────┘    └─────┬───────┘
+                         │                  │
+                         └────────┬─────────┘
+                                  │
+                                  ▼
+                    ┌─────────────────┐
+                    │ Filtrado por    │
+                    │ Sector          │
+                    │ (Filtered by    │
+                    │  Sector)        │
+                    └─────────┬───────┘
+                              │
+        ┌─────────────────────┼─────────────────────┐
+        │                     │                     │
+        ▼                     ▼                     ▼
+┌─────────────┐    ┌─────────────────┐    ┌─────────────┐
+│ Entidad     │    │ Valido Si       │    │ Entidad     │
+│ Tipo A      │    │ Sector A ∈      │    │ Tipo B      │
+│ (Entity     │    │ Entidad A       │    │ (Entity     │
+│  Type A)    │    │ (Valid If       │    │  Type B)    │
+│             │    │  Sector A ∈     │    │             │
+│             │    │  Entity A)      │    │             │
+└─────────────┘    └─────────────────┘    └─────────────┘
 ```
+
+### Descripción del Flujo
+
+1. **Titular (Patient)**: El paciente es el propietario de los registros médicos y puede iniciar la creación de documentos.
+
+2. **Administración de Documentos**: Controla todas las operaciones relacionadas con documentos:
+   - **Crearlos**: Crear nuevos documentos médicos
+   - **Modificar**: Actualizar documentos existentes
+   - **Leer**: Acceder y visualizar documentos
+   - **Eliminar**: Eliminar documentos (operación crítica)
+
+3. **Administración de Permisos**: Gestiona el acceso a los documentos:
+   - Controla quién puede realizar cada operación
+   - Valida permisos antes de permitir acceso
+   - Maneja diferentes niveles de acceso
+
+4. **Acceso a Información**:
+   - **Documento Específico**: Acceso a un documento particular
+   - **Historial del Titular**: Acceso al historial completo del paciente
+
+5. **Filtrado por Sector**: Organiza la información por sectores médicos (cardiología, neurología, etc.)
+
+6. **Tipos de Entidad**:
+   - **Entidad Tipo A**: Doctores, especialistas médicos
+   - **Entidad Tipo B**: Compañías de seguros, auditores
+
+7. **Validación**: Verifica que el sector del documento pertenezca al tipo de entidad que solicita acceso.
+
+### Integración con Smart Contracts
+
+Este flujo se implementa a través de los tres contratos principales:
+
+- **AccessControl**: Maneja la "Administración de Permisos" y la validación de entidades
+- **MedicalRecords**: Gestiona la "Administración de Documentos" y el almacenamiento
+- **AuditTrail**: Registra todas las actividades del flujo para auditoría
 
 ## Entity Types
 
