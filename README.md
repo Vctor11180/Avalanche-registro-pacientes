@@ -77,12 +77,12 @@ El siguiente diagrama ilustra el flujo completo del sistema de administración d
 ```mermaid
 flowchart TD
     %% Nivel 1
-    P[👤 Titular (Patient)] --> D[📄 Admin. Documentos]
+    P[👤 Titular Patient] --> D[📄 Admin. Documentos]
 
     %% Nivel 2 - CRUD sobre documentos
-    D --> C[➕ Crear (Create)]
-    D --> M[✏️ Modificar (Modify)]
-    D --> R[📖 Leer (Read)]
+    D --> C[➕ Crear Create]
+    D --> M[✏️ Modificar Modify]
+    D --> R[📖 Leer Read]
 
     %% Conexión hacia administración de permisos
     C --> AP[⚙️ Admin. Permisos]
@@ -90,9 +90,9 @@ flowchart TD
     R --> AP
 
     %% Nivel 3 - Opciones de permisos
-    AP --> DEL[🗑️ Eliminar (Delete)]
-    AP --> SD[📂 Documento Específico (Specific Document)]
-    AP --> H[📜 Historial del Titular (Holder's History)]
+    AP --> DEL[🗑️ Eliminar Delete]
+    AP --> SD[📂 Documento Específico Specific Document]
+    AP --> H[📜 Historial del Titular Holder's History]
 
     %% Filtrado por sector
     DEL --> FS[🏢 Filtrado por Sector]
@@ -100,9 +100,10 @@ flowchart TD
     H --> FS
 
     %% Nivel 4 - Entidades
-    FS --> EA[🏛️ Entidad Tipo A (Entity Type A)]
+    FS --> EA[🏛️ Entidad Tipo A Entity Type A]
     FS --> V[✅ Válido si Sector A ∈ Entidad A]
-    FS --> EB[🏛️ Entidad Tipo B (Entity Type B)]
+    FS --> EB[🏛️ Entidad Tipo B Entity Type B]
+```
 
 ### Descripción del Flujo
 
