@@ -76,35 +76,35 @@ El siguiente diagrama ilustra el flujo completo del sistema de administración d
 
 ```mermaid
 flowchart TD
-    %% Nivel 1
-    P[👤 Titular Patient] --> D[📄 Admin. Documentos]
+    %% Level 1
+    P[👤 Patient Holder] --> D[📄 Document Admin]
+    P --> AP[⚙️ Permission Admin]
 
-    %% Nivel 2 - CRUD sobre documentos
-    D --> C[➕ Crear Create]
-    D --> M[✏️ Modificar Modify]
-    D --> R[📖 Leer Read]
+    %% Level 2 - CRUD operations on documents
+    D --> C[➕ Create]
+    D --> M[✏️ Modify]
+    D --> R[📖 Read]
 
-    %% Conexión hacia administración de permisos
-    C --> AP[⚙️ Admin. Permisos]
-    M --> AP
-    R --> AP
+    %% Connection from permission administration to CRUD
+    AP --> C
+    AP --> M
+    AP --> R
 
-    %% Nivel 3 - Opciones de permisos
-    AP --> DEL[🗑️ Eliminar Delete]
-    AP --> SD[📂 Documento Específico Specific Document]
-    AP --> H[📜 Historial del Titular Holder's History]
+    %% Level 3 - Permission options
+    AP --> DEL[🗑️ Delete]
+    AP --> SD[📂 Specific Document]
+    AP --> H[📜 Patient History]
 
-    %% Filtrado por sector
-    DEL --> FS[🏢 Filtrado por Sector]
+    %% Sector filtering
+    DEL --> FS[🏢 Sector Filtering]
     SD --> FS
     H --> FS
 
-    %% Nivel 4 - Entidades
-    FS --> EA[🏛️ Entidad Tipo A Entity Type A]
-    FS --> V[✅ Válido si Sector A ∈ Entidad A]
-    FS --> EB[🏛️ Entidad Tipo B Entity Type B]
+    %% Level 4 - Entities
+    EA[🏛️ Entity Type A] --> FS
+    FS --> V[✅ Valid if Sector A ∈ Entity A]
+    EB[🏛️ Entity Type B] --> FS
 ```
-
 ### Descripción del Flujo
 
 1. **Titular (Patient)**: El paciente es el propietario de los registros médicos y puede iniciar la creación de documentos.
@@ -352,4 +352,5 @@ For questions or support, please open an issue on GitHub or contact the developm
 - [ ] Advanced analytics and reporting
 - [ ] Mobile SDK development
 - [ ] Healthcare provider integration APIs
+
 
