@@ -84,6 +84,7 @@ flowchart TD
     D --> C[➕ Create]
     D --> M[✏️ Modify]
     D --> R[📖 Read]
+    D --> DEL[🗑️ Delete]
 
     %% Connection from permission administration to CRUD
     AP --> C
@@ -352,5 +353,6 @@ For questions or support, please open an issue on GitHub or contact the developm
 - [ ] Advanced analytics and reporting
 - [ ] Mobile SDK development
 - [ ] Healthcare provider integration APIs
+
 
 
